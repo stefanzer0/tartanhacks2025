@@ -3,12 +3,38 @@ from fastapi.middleware.cors import CORSMiddleware
 import httpx
 import json
 import requests
+from google import genai
+from google.genai import types
+
 
 app = FastAPI()
 
-YOUR_NUMLOOKUP_API_KEY = open("../Credentials/numlookup_api.txt").read().strip()
+YOUR_NUMLOOKUP_API_KEY = open("./Credentials/numlookup_api.txt").read().strip()
 
 app = FastAPI()
+
+# ✅ Set up Gemini API Key
+GENAI_API_KEY = open("./Credentials/gemini_api.txt").read().strip()
+client = genai.Client(api_key=GENAI_API_KEY)
+
+async def analyze_risk_with_gemini(osint_results):
+    """Uses Gemini AI to analyze OSINT data and provide a risk assessment."""
+    #model = genai.GenerativeModel("gemini-2.0-flash")
+    model = "gemini-2.0-flash"
+    
+    prompt = f"""
+    Analyze the following OSINT exposure report and assess the risk level:
+    {json.dumps(osint_results, indent=2)}
+
+    - What is the severity of the exposed data?
+    - What security actions should the user take?
+    - Provide a risk rating (Low, Medium, High) and explain why.
+    """
+    
+    response = client.models.generate_content(model= "gemini-2.0-flash", contents= prompt)
+
+    #response = client.models.generate_content(model= "gemini-2.0-flash", contents= "Analyze the following OSINT exposure report and assess the risk level: Username: stefan found in pornhub Email: adarsh@cmu.edu found in DickDog - What is the severity of the exposed data? - What security actions should the user take?     - Provide a risk rating (Low, Medium, High) and explain why.")
+    return response.text if response else "No analysis available."
 
 # Enable CORS for frontend access
 app.add_middleware(
@@ -73,5 +99,8 @@ async def osint_search(email: str = Query(None), ip: str = Query(None), username
         results["social_media_accounts"] = await check_username(username)
     if phone:
         results["phone_info"] = await lookup_phone(phone)
+
+    # ✅ Generate AI-based risk assessment
+    results["gemini_risk_analysis"] = await analyze_risk_with_gemini(results)
     return results
 

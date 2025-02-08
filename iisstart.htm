@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINTly - Uncover the Web</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #0f0;
+        }
+        .hero {
+            background: url('https://shustrik-maps.com/wp-content/uploads/2024/07/north-america-satellite-map-1_3-min.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #0f0;
+        }
+        .hero h1 {
+            font-size: 3rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px;
+            background: #111;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,255,0,0.2);
+            margin-top: -50px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #222;
+            color: #0f0;
+            border: 1px solid #0f0;
+        }
+        button {
+            background-color: #0f0;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+        pre {
+            background: #222;
+            padding: 10px;
+            border-radius: 5px;
+            color: #0f0;
+        }
+        pre#results, pre#ai-analysis {
+        background-color: black;
+        color: limegreen;
+        font-family: monospace;
+        padding: 10px;
+        border: 1px solid #ccc;
+        overflow-x: auto;
+        max-width: 100%;
+        white-space: pre-wrap;  /* ✅ Enables text wrapping */
+        word-wrap: break-word;  /* ✅ Ensures long words wrap properly */
+        max-height: 400px;
+        overflow-y: scroll;
+        }
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 40px;
+            text-align: center;
+        }
+        .feature-box {
+            width: 30%;
+            padding: 20px;
+            background: #111;
+            box-shadow: 0 2px 5px rgba(0,255,0,0.2);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #0f0;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #111;
+            margin-top: 20px;
+        }
+        .footer a {
+            color: #0f0;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+.button1 {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  background-color: #0f0;
+}
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🔍 OSINTly - Uncover the Web</h1>
+        <p>Explore publicly available information with OSINTly's advanced intelligence tools.</p>
+	<p>Brought to you by </p><button class="button1 button1;" onclick="location.href='/contact';" id="myButton">NOSTOS</button>
+    </div>
+	
+    
+    <div class="container">
+        <h2>OSINT Search</h2>
+        <label>Email:</label> <input type="text" id="email"><br>
+        <label>IP Address:</label> <input type="text" id="ip"><br>
+        <label>Username:</label> <input type="text" id="username"><br>
+        <label>Phone Number:</label> <input type="text" id="phone"><br>
+        <button onclick="fetchOSINT()">Search</button>
+        <h3>Results:</h3>
+        <pre id="results"></pre>
+        <h3>🤖 AI Risk Analysis:</h3>
+        <pre id="ai-analysis"></pre>
+    </div>
+    
+    <div class="features">
+        <div class="feature-box">
+            <h3>Privacy Risk Report</h3>
+            <p>Identify exposed personal data and take action to secure it.</p>
+        </div>
+        <div class="feature-box">
+            <h3>Dark Web Exposure</h3>
+            <p>Check if your credentials have been leaked in data breaches.</p>
+        </div>
+        <div class="feature-box">
+            <h3>Social Graph Mapping</h3>
+            <p>Analyze online connections and digital footprints.</p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <a href="/faqs">FAQS</a>
+        <a href="/contact">CONTACT</a>
+        <a href="/results">RESULTS</a>
+        <a href="https://osintframework.com/">EXTERNAL OSINT TOOLS</a>
+    </div>
+    
+    <script>
+        async function fetchOSINT() {
+            const email = document.getElementById("email").value;
+            const ip = document.getElementById("ip").value;
+            const username = document.getElementById("username").value;
+            const phone = document.getElementById("phone").value;
+
+            let query = `?email=${email}&ip=${ip}&username=${username}&phone=${phone}`;
+            let url = `http://dbmsbdsm.org:8001/osint_search${query}`;
+            
+            /*
+            const response = await fetch(url);
+            const data = await response.json();
+            document.getElementById("results").innerText = JSON.stringify(data, null, 2);
+            */
+            try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log("API Response:", data);
+            /*
+            // ✅ Show OSINT results
+            document.getElementById("results").textContent = JSON.stringify(data, null, 2);
+
+            // ✅ Show AI-generated risk analysis
+            if (data.gemini_risk_analysis) {
+                document.getElementById("ai-analysis").textContent = data.gemini_risk_analysis;
+            } else {
+                document.getElementById("ai-analysis").textContent = "No AI analysis available.";
+            }
+            */
+        
+            // ✅ Remove AI analysis from OSINT results before displaying
+        let osintResults = { ...data };
+        delete osintResults.gemini_risk_analysis;
+
+        // ✅ Show OSINT results (without AI analysis)
+        document.getElementById("results").textContent = JSON.stringify(osintResults, null, 2);
+
+        // ✅ Show AI-generated risk analysis
+        if (data.gemini_risk_analysis) {
+            document.getElementById("ai-analysis").textContent = data.gemini_risk_analysis;
+        } else {
+            document.getElementById("ai-analysis").textContent = "No AI analysis available.";
+        }
+
+        } catch (error) {
+            console.error("Fetch error:", error);
+            document.getElementById("results").textContent = "Error fetching data. Check console for details.";
+            document.getElementById("ai-analysis").textContent = "Error loading AI risk analysis.";
+        }
+        }
+    </script>
+</body>
+</html>
