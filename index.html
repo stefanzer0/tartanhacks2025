@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSINT Search</title>
+    <script>
+        async function fetchOSINT() {
+            const email = document.getElementById("email").value;
+            const ip = document.getElementById("ip").value;
+            const username = document.getElementById("username").value;
+            const phone = document.getElementById("phone").value;
+
+            let query = `?email=${email}&ip=${ip}&username=${username}&phone=${phone}`;
+            let url = `http://127.0.0.1:8000/osint_search${query}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+            document.getElementById("results").innerText = JSON.stringify(data, null, 2);
+        }
+    </script>
+</head>
+<body>
+    <h2>🔍 OSINT Search</h2>
+    <label>Email:</label> <input type="text" id="email"><br>
+    <label>IP Address:</label> <input type="text" id="ip"><br>
+    <label>Username:</label> <input type="text" id="username"><br>
+    <label>Phone Number:</label> <input type="text" id="phone"><br>
+    <button onclick="fetchOSINT()">Search</button>
+    <h3>Results:</h3>
+    <pre id="results"></pre>
+</body>
+</html>
