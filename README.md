@@ -2,7 +2,7 @@ Welcome to OSINTly!
 
 As Heinz College students at CMU, we wished to apply our degree program skills towards real-world applications of information security.
 In an effort to assist people who are unaware of their digital footprint online, we built a web application that can detect and scour the Internet for traces of personally identifying information.
-Using user-supplied fields supplied, users are able to obtain a comprehensive report of their Internet presence from multiple available public search sources.
+Using user-supplied fields such as email handle, known IP addresses, social media usernames, and phone numbers, users are able to obtain a comprehensive report of their Internet presence from multiple available public search sources.
 
 To some, the amount of information truly out there may surprise them! Don't hesitate to find your digital footprint today!
 
